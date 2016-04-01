@@ -1,3 +1,5 @@
 .idea/
 .git/
 *.iml
+examples/python/.cache/
+examples/python/__pycache__/
