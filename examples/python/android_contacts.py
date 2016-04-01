@@ -31,6 +31,7 @@ class ContactsAndroidTests(unittest.TestCase):
 
         textfields = self.driver.find_elements_by_class_name("android.widget.EditText")
         textfields[0].send_keys("Appium User")
+        textfields[1].send_keys("15558135526")
         textfields[2].send_keys("someone@appium.io")
 
         self.assertEqual('Appium User', textfields[0].text)

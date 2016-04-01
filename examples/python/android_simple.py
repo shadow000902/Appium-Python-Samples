@@ -14,8 +14,8 @@ class SimpleAndroidTests(unittest.TestCase):
     def setUp(self):
         desired_caps = {}
         desired_caps['platformName'] = 'Android'
-        desired_caps['platformVersion'] = '4.2'
-        desired_caps['deviceName'] = 'Android Emulator'
+        desired_caps['platformVersion'] = '6.0'
+        desired_caps['deviceName'] = 'Nexus 5'
         desired_caps['app'] = PATH(
             '../../../sample-code/apps/ApiDemos/bin/ApiDemos-debug.apk'
         )
