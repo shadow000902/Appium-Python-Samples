@@ -17,7 +17,7 @@ class HighingAndroidTests(unittest.TestCase):
         desired_caps['platformVersion'] = '6.0'
         desired_caps['deviceName'] = 'Nexus 5'
         desired_caps['app'] = PATH(
-            'E:/Appium/Appium-Python-Samples/apps/Highing.apk'
+            'C:/Appium/Appium-Python-Samples/apps/Highing.apk'
         )
 
         self.driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
@@ -49,7 +49,7 @@ class HighingAndroidTests(unittest.TestCase):
         el.click()
 
         # 隐性等待/如果一个无素没有出现都会默认等待你所设定的时间，直到超时或者元素出现
-        self.driver.implicitly_wait(10)
+        self.driver.implicitly_wait(15)
         el = self.driver.find_element_by_xpath('//android.widget.TextView[contains(@text, "每日频道")]')
         el.click()
 
