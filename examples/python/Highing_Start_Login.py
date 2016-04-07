@@ -17,7 +17,7 @@ class HighingAndroidTests(unittest.TestCase):
         desired_caps['platformVersion'] = '6.0'
         desired_caps['deviceName'] = 'Nexus 5'
         desired_caps['app'] = PATH(
-            'C:/Appium/Appium-Python-Samples/apps/Highing.apk'
+            'C:/Highing/app/build/outputs/apk/app-Test-debug.apk'
         )
 
         self.driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
