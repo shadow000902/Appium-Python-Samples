@@ -28,6 +28,8 @@ class HighingAndroidTests(unittest.TestCase):
 
     def test_Swipe_Login(self):
         sleep(5)
+
+        # 过引导页
         self.driver.swipe(1000, 960, 80, 960, 500)
         sleep(2)
         self.driver.swipe(1000, 960, 80, 960, 500)
@@ -37,8 +39,10 @@ class HighingAndroidTests(unittest.TestCase):
         el = self.driver.find_element_by_id('cn.highing.hichat:id/iv_guide_enter')
         el.click()
         sleep(3)
+
+        # 登录
         textfields = self.driver.find_elements_by_class_name("android.widget.EditText")
-        textfields[0].send_keys("11122223333")
+        textfields[0].send_keys("15558135521")
         textfields[1].send_keys("123456")
 
         # self.assertEqual('11122223333', textfields[0].text)
@@ -52,6 +56,47 @@ class HighingAndroidTests(unittest.TestCase):
         self.driver.implicitly_wait(15)
         el = self.driver.find_element_by_xpath('//android.widget.TextView[contains(@text, "每日频道")]')
         el.click()
+
+        # 过教学页
+        el = self.driver.find_element_by_xpath('//android.widget.ImageView[contains(@text, "")]')
+        el.click()
+
+        # 进入发帖页
+        # el = self.driver.find_element_by_id()
+        el_1 = self.driver.find_element_by_id('cn.highing.hichat:id/topic_text_send')
+        # el_2 = self.driver.find_element_by_id('cn.highing.hichat:id/topic_img_send')
+        # el_3 = self.driver.find_element_by_id('cn.highing.hichat:id/topic_voice_send')
+        #
+        # if (el == el_1) :
+        #     el_1.click()
+        # elif (el == el_2) :
+        #     el_2.click()
+        # else:
+        #     el_3.long_press()
+
+        el_1.click()
+
+
+        # 过教学页
+        el = self.driver.find_element_by_xpath('//android.widget.ImageView[contains(@text, "")]')
+        el.click()
+        sleep(1)
+        el = self.driver.find_element_by_xpath('//android.widget.ImageView[contains(@text, "")]')
+        el.click()
+        sleep(1)
+        el = self.driver.find_element_by_xpath('//android.widget.ImageView[contains(@text, "")]')
+        el.click()
+
+        # 发帖
+        el = self.driver.find_element_by_id('cn.highing.hichat:id/content_text')
+        el.click()
+
+        textfield = self.driver.find_element_by_class_name("android.widget.EditText")
+        textfield.send_keys("123456")
+
+        el = self.driver.find_element_by_id('cn.highing.hichat:id/header_btn_right')
+        el.click()
+        sleep(3)
 
         # el = self.driver.find_element_by_accessibility_id('Arcs')
         # self.assertIsNotNone(el)
