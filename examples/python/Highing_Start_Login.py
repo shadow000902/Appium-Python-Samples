@@ -17,7 +17,7 @@ class HighingAndroidTests(unittest.TestCase):
         desired_caps['platformVersion'] = '6.0'
         desired_caps['deviceName'] = 'Nexus 5'
         desired_caps['app'] = PATH(
-            'C:/Highing/app/build/outputs/apk/app-Test-debug.apk'
+            'D:/highing.apk'
         )
 
         self.driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
@@ -98,28 +98,6 @@ class HighingAndroidTests(unittest.TestCase):
         el.click()
         sleep(3)
 
-        # el = self.driver.find_element_by_accessibility_id('Arcs')
-        # self.assertIsNotNone(el)
-        #
-        # self.driver.back()
-        #
-        # el = self.driver.find_element_by_accessibility_id("App")
-        # self.assertIsNotNone(el)
-        #
-        # els = self.driver.find_elements_by_android_uiautomator("new UiSelector().clickable(true)")
-        # self.assertGreaterEqual(12, len(els))
-        #
-        # self.driver.find_element_by_android_uiautomator('text("API Demos")')
-
-
-    # def test_simple_actions(self):
-    #     el = self.driver.find_element_by_accessibility_id('Graphics')
-    #     el.click()
-    #
-    #     el = self.driver.find_element_by_accessibility_id('Arcs')
-    #     el.click()
-    #
-    #     self.driver.find_element_by_android_uiautomator('new UiSelector().text("Graphics/Arcs")')
 
 
 if __name__ == '__main__':
