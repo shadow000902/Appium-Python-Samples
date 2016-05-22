@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# coding=utf-8
+
 import os
 from time import sleep
 
@@ -16,9 +19,9 @@ class HighingAndroidTests(unittest.TestCase):
         desired_caps['platformName'] = 'Android'
         desired_caps['platformVersion'] = '6.0'
         desired_caps['deviceName'] = 'Nexus 5'
-        desired_caps['app'] = PATH(
-            'D:/highing.apk'
-        )
+        desired_caps['appPackage'] = 'cn.highing.hichat'  # 被测App的包名
+        desired_caps['appActivity'] = 'cn.highing.hichat.ui.SplashActivity'  # 启动时的Activity
+        # desired_caps['app'] = PATH('D:/highing.apk')
 
         self.driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
 
@@ -27,26 +30,26 @@ class HighingAndroidTests(unittest.TestCase):
         self.driver.quit()
 
     def test_Swipe_Login(self):
-        sleep(5)
-
-        # 过引导页
-        self.driver.swipe(1000, 960, 80, 960, 500)
-        sleep(2)
-        self.driver.swipe(1000, 960, 80, 960, 500)
-        sleep(2)
-        self.driver.swipe(1000, 960, 80, 960, 500)
-        sleep(2)
-        el = self.driver.find_element_by_id('cn.highing.hichat:id/iv_guide_enter')
-        el.click()
-        sleep(3)
+        self.driver.implicitly_wait(10)
+        if self.driver.current_activity == ".ui.GuideActivity":
+            try:
+                # 划过引导页
+                self.driver.swipe(1000, 960, 80, 960, 500)
+                self.driver.implicitly_wait(10)
+                self.driver.swipe(1000, 960, 80, 960, 500)
+                self.driver.implicitly_wait(10)
+                self.driver.swipe(1000, 960, 80, 960, 500)
+                self.driver.implicitly_wait(10)
+                el = self.driver.find_element_by_id('cn.highing.hichat:id/iv_guide_enter')
+                el.click()
+                self.driver.implicitly_wait(10)
+            except:
+                return
 
         # 登录
         textfields = self.driver.find_elements_by_class_name("android.widget.EditText")
         textfields[0].send_keys("15558135521")
         textfields[1].send_keys("123456")
-
-        # self.assertEqual('11122223333', textfields[0].text)
-        # self.assertEqual('123456', textfields[1].text)
 
         self.driver.deactivate_ime_engine()
         el = self.driver.find_element_by_id('cn.highing.hichat:id/btn_login')
