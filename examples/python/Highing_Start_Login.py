@@ -6,6 +6,7 @@ from time import sleep
 
 import unittest
 
+# from Scripts.HTMLTestRunner import HTMLTestRunner
 from appium import webdriver
 
 # Returns abs path relative to this file and not cwd
@@ -48,10 +49,10 @@ class HighingAndroidTests(unittest.TestCase):
 
         # 登录
         textfields = self.driver.find_elements_by_class_name("android.widget.EditText")
-        textfields[0].send_keys("15558135521")
+        textfields[0].send_keys("18116137476")
         textfields[1].send_keys("123456")
 
-        self.driver.deactivate_ime_engine()
+        self.driver.hide_keyboard()
         el = self.driver.find_element_by_id('cn.highing.hichat:id/btn_login')
         el.click()
 
@@ -59,6 +60,7 @@ class HighingAndroidTests(unittest.TestCase):
         self.driver.implicitly_wait(15)
         el = self.driver.find_element_by_xpath('//android.widget.TextView[contains(@text, "每日频道")]')
         el.click()
+        self.driver.implicitly_wait(10)
 
         # 过教学页
         el = self.driver.find_element_by_xpath('//android.widget.ImageView[contains(@text, "")]')
@@ -67,42 +69,78 @@ class HighingAndroidTests(unittest.TestCase):
         # 进入发帖页
         # el = self.driver.find_element_by_id()
         el_1 = self.driver.find_element_by_id('cn.highing.hichat:id/topic_text_send')
-        # el_2 = self.driver.find_element_by_id('cn.highing.hichat:id/topic_img_send')
+        el_2 = self.driver.find_element_by_id('cn.highing.hichat:id/topic_img_send')
         # el_3 = self.driver.find_element_by_id('cn.highing.hichat:id/topic_voice_send')
-        #
-        # if (el == el_1) :
-        #     el_1.click()
-        # elif (el == el_2) :
-        #     el_2.click()
-        # else:
-        #     el_3.long_press()
 
-        el_1.click()
+        if (self.driver.find_element_by_id('cn.highing.hichat:id/topic_text_send') == el_1):
+            el_1.click()
+            self.driver.implicitly_wait(10)
 
+            # 过教学页
+            el = self.driver.find_element_by_xpath('//android.widget.ImageView[contains(@text, "")]')
+            el.click()
+            sleep(1)
+            el = self.driver.find_element_by_xpath('//android.widget.ImageView[contains(@text, "")]')
+            el.click()
+            sleep(1)
+            el = self.driver.find_element_by_xpath('//android.widget.ImageView[contains(@text, "")]')
+            el.click()
 
-        # 过教学页
-        el = self.driver.find_element_by_xpath('//android.widget.ImageView[contains(@text, "")]')
-        el.click()
-        sleep(1)
-        el = self.driver.find_element_by_xpath('//android.widget.ImageView[contains(@text, "")]')
-        el.click()
-        sleep(1)
-        el = self.driver.find_element_by_xpath('//android.widget.ImageView[contains(@text, "")]')
-        el.click()
+            # 发文字帖
+            el = self.driver.find_element_by_id('cn.highing.hichat:id/content_text')
+            el.click()
 
-        # 发帖
-        el = self.driver.find_element_by_id('cn.highing.hichat:id/content_text')
-        el.click()
+            textfield = self.driver.find_element_by_class_name("android.widget.EditText")
+            textfield.send_keys("文字测试0001")
 
-        textfield = self.driver.find_element_by_class_name("android.widget.EditText")
-        textfield.send_keys("123456")
+            el = self.driver.find_element_by_id('cn.highing.hichat:id/header_btn_right')
+            el.click()
+            self.driver.implicitly_wait(10)
+            return
 
-        el = self.driver.find_element_by_id('cn.highing.hichat:id/header_btn_right')
-        el.click()
-        sleep(3)
+        elif (self.driver.find_element_by_id('cn.highing.hichat:id/topic_img_send') == el_2):
+            el_2.click()
+            self.driver.implicitly_wait(10)
+
+            # 发图片帖
+            imagefields = self.driver.find_elements_by_class_name("android.widget.EditText")
+            imagefields[5].click()
+            imagefields[6].click()
+            imagefields[7].click()
+
+            el = self.driver.find_element_by_id('cn.highing.hichat:id/header_layout_rightview_container')
+            el.click()
+            self.driver.implicitly_wait(10)
+
+            textfield = self.driver.find_element_by_class_name("android.widget.EditText")
+            textfield.send_keys("图片测试0001")
+
+            el = self.driver.find_element_by_id('cn.highing.hichat:id/header_btn_right')
+            el.click()
+            self.driver.implicitly_wait(10)
+
+        else:
+
+            # 发语音帖
+            el_3 = self.driver.find_element_by_id('cn.highing.hichat:id/topic_voice_send')
+            el_3.tap(8)
+            self.driver.implicitly_wait(10)
+
+            textfield = self.driver.find_element_by_class_name("android.widget.EditText")
+            textfield.send_keys("语音测试0001")
+
+            el = self.driver.find_element_by_id('cn.highing.hichat:id/header_btn_right')
+            el.click()
+            self.driver.implicitly_wait(10)
+
 
 
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(HighingAndroidTests)
     unittest.TextTestRunner(verbosity=2).run(suite)
+
+    # filename="./myAppiumLog.html"        # 定义个报告存放路径，支持相对路径。
+    # fp=file(filename, 'wb')
+    # runner = HTMLTestRunner.HTMLTestRunner(stream=fp, title='Report_title', description='Report_description')  # 使用HTMLTestRunner配置参数，输出报告路径、报告标题、描述
+    # runner.run(testunit)                 # 自动进行测试
