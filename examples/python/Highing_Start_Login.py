@@ -31,7 +31,7 @@ class HighingAndroidTests(unittest.TestCase):
         self.driver.quit()
 
     def test_Swipe_Login(self):
-        self.driver.implicitly_wait(10)
+        sleep(10)
         if self.driver.current_activity == ".ui.GuideActivity":
             try:
                 # 划过引导页
@@ -61,79 +61,80 @@ class HighingAndroidTests(unittest.TestCase):
         el = self.driver.find_element_by_xpath('//android.widget.TextView[contains(@text, "每日频道")]')
         el.click()
         self.driver.implicitly_wait(10)
-
-        # 过教学页
-        el = self.driver.find_element_by_xpath('//android.widget.ImageView[contains(@text, "")]')
-        el.click()
-
-        # 进入发帖页
-        # el = self.driver.find_element_by_id()
-        el_1 = self.driver.find_element_by_id('cn.highing.hichat:id/topic_text_send')
-        el_2 = self.driver.find_element_by_id('cn.highing.hichat:id/topic_img_send')
-        # el_3 = self.driver.find_element_by_id('cn.highing.hichat:id/topic_voice_send')
-
-        if (self.driver.find_element_by_id('cn.highing.hichat:id/topic_text_send') == el_1):
-            el_1.click()
-            self.driver.implicitly_wait(10)
-
+        try:
             # 过教学页
             el = self.driver.find_element_by_xpath('//android.widget.ImageView[contains(@text, "")]')
             el.click()
-            sleep(1)
-            el = self.driver.find_element_by_xpath('//android.widget.ImageView[contains(@text, "")]')
-            el.click()
-            sleep(1)
-            el = self.driver.find_element_by_xpath('//android.widget.ImageView[contains(@text, "")]')
-            el.click()
+        except:
+            return
+
+        try:
+            # 发文字帖
+            el_1 = self.driver.find_element_by_id('cn.highing.hichat:id/topic_text_send')
+            el_1.click()
+            self.driver.implicitly_wait(10)
+
+            try:
+                # 过教学页
+                el = self.driver.find_element_by_xpath('//android.widget.ImageView[contains(@text, "")]')
+                el.click()
+                sleep(1)
+                el = self.driver.find_element_by_xpath('//android.widget.ImageView[contains(@text, "")]')
+                el.click()
+                sleep(1)
+                el = self.driver.find_element_by_xpath('//android.widget.ImageView[contains(@text, "")]')
+                el.click()
+            except:
+                return
 
             # 发文字帖
             el = self.driver.find_element_by_id('cn.highing.hichat:id/content_text')
             el.click()
 
             textfield = self.driver.find_element_by_class_name("android.widget.EditText")
-            textfield.send_keys("文字测试0001")
-
-            el = self.driver.find_element_by_id('cn.highing.hichat:id/header_btn_right')
-            el.click()
-            self.driver.implicitly_wait(10)
-            return
-
-        elif (self.driver.find_element_by_id('cn.highing.hichat:id/topic_img_send') == el_2):
-            el_2.click()
-            self.driver.implicitly_wait(10)
-
-            # 发图片帖
-            imagefields = self.driver.find_elements_by_class_name("android.widget.EditText")
-            imagefields[5].click()
-            imagefields[6].click()
-            imagefields[7].click()
-
-            el = self.driver.find_element_by_id('cn.highing.hichat:id/header_layout_rightview_container')
-            el.click()
-            self.driver.implicitly_wait(10)
-
-            textfield = self.driver.find_element_by_class_name("android.widget.EditText")
-            textfield.send_keys("图片测试0001")
+            textfield.send_keys("text_test_0001")
 
             el = self.driver.find_element_by_id('cn.highing.hichat:id/header_btn_right')
             el.click()
             self.driver.implicitly_wait(10)
 
-        else:
-
-            # 发语音帖
-            el_3 = self.driver.find_element_by_id('cn.highing.hichat:id/topic_voice_send')
-            el_3.tap(8)
-            self.driver.implicitly_wait(10)
-
-            textfield = self.driver.find_element_by_class_name("android.widget.EditText")
-            textfield.send_keys("语音测试0001")
-
-            el = self.driver.find_element_by_id('cn.highing.hichat:id/header_btn_right')
-            el.click()
-            self.driver.implicitly_wait(10)
+        except:
+            try:
+                # 发图片帖
+                el_2 = self.driver.find_element_by_id('cn.highing.hichat:id/topic_img_send')
+                el_2.click()
+                self.driver.implicitly_wait(10)
 
 
+                # 这里还没调通，图片复用的选择有问题
+                imagefields = self.driver.find_elements_by_class_name("android.widget.EditText")
+                imagefields[5].click()
+                imagefields[6].click()
+                imagefields[7].click()
+
+                el = self.driver.find_element_by_id('cn.highing.hichat:id/header_layout_rightview_container')
+                el.click()
+                self.driver.implicitly_wait(10)
+
+                textfield = self.driver.find_element_by_class_name("android.widget.EditText")
+                textfield.send_keys("image_test_0001")
+
+                el = self.driver.find_element_by_id('cn.highing.hichat:id/header_btn_right')
+                el.click()
+                self.driver.implicitly_wait(10)
+
+            except:
+                # 发语音帖
+                el_3 = self.driver.find_element_by_id('cn.highing.hichat:id/topic_voice_send')
+                el_3.click()
+                self.driver.implicitly_wait(10)
+
+                textfield = self.driver.find_element_by_class_name("android.widget.EditText")
+                textfield.send_keys("voice_test_0001")
+
+                el = self.driver.find_element_by_id('cn.highing.hichat:id/header_btn_right')
+                el.click()
+                self.driver.implicitly_wait(10)
 
 
 if __name__ == '__main__':
