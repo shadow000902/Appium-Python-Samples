@@ -14,6 +14,7 @@ PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
+
 class HighingAndroidTests(unittest.TestCase):
     def setUp(self):
         desired_caps = {}
@@ -63,7 +64,8 @@ class HighingAndroidTests(unittest.TestCase):
         self.driver.implicitly_wait(10)
         try:
             # 过教学页
-            el = self.driver.find_element_by_xpath('//android.widget.ImageView[contains(@text, "")]')
+            el = self.driver.find_element_by_xpath(
+                '//android.widget.FrameLayout/android.widget.LinearLayout/android.widget.ImageView[contains(@text, "")]')
             el.click()
         except:
             return
@@ -76,13 +78,16 @@ class HighingAndroidTests(unittest.TestCase):
 
             try:
                 # 过教学页
-                el = self.driver.find_element_by_xpath('//android.widget.ImageView[contains(@text, "")]')
+                el = self.driver.find_element_by_xpath(
+                    '//android.widget.LinearLayout/android.widget.ImageView[contains(@text, "")]')
                 el.click()
                 sleep(1)
-                el = self.driver.find_element_by_xpath('//android.widget.ImageView[contains(@text, "")]')
+                el = self.driver.find_element_by_xpath(
+                    '//android.widget.LinearLayout/android.widget.ImageView[contains(@text, "")]')
                 el.click()
                 sleep(1)
-                el = self.driver.find_element_by_xpath('//android.widget.ImageView[contains(@text, "")]')
+                el = self.driver.find_element_by_xpath(
+                    '//android.widget.LinearLayout/android.widget.ImageView[contains(@text, "")]')
                 el.click()
             except:
                 return
@@ -105,12 +110,11 @@ class HighingAndroidTests(unittest.TestCase):
                 el_2.click()
                 self.driver.implicitly_wait(10)
 
-
                 # 这里还没调通，图片复用的选择有问题
-                imagefields = self.driver.find_elements_by_class_name("android.widget.EditText")
-                imagefields[5].click()
-                imagefields[6].click()
-                imagefields[7].click()
+                self.driver.find_elements_by_xpath(
+                    '//android.widget.LinearLayout/android.widget.RelativeLayout[1]/android.widget.GridView/android.widget.RelativeLayout[1]/android.widget.LinearLayout[1]/android.widget.CheckBox[contains(@text, "")]').click()
+                self.driver.find_elements_by_xpath(
+                    '//android.widget.LinearLayout/android.widget.RelativeLayout[1]/android.widget.GridView/android.widget.RelativeLayout[2]/android.widget.LinearLayout[1]/android.widget.CheckBox[contains(@text, "")]').click()
 
                 el = self.driver.find_element_by_id('cn.highing.hichat:id/header_layout_rightview_container')
                 el.click()
