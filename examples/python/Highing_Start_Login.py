@@ -10,6 +10,8 @@ import unittest
 from appium import webdriver
 
 # Returns abs path relative to this file and not cwd
+from appium.webdriver.common.touch_action import TouchAction
+
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
@@ -74,21 +76,18 @@ class HighingAndroidTests(unittest.TestCase):
             # 发文字帖
             el_1 = self.driver.find_element_by_id('cn.highing.hichat:id/topic_text_send')
             el_1.click()
-            self.driver.implicitly_wait(10)
 
             try:
                 # 过教学页
-                el = self.driver.find_element_by_xpath(
-                    '//android.widget.LinearLayout/android.widget.ImageView[contains(@text, "")]')
+                el = self.driver.find_element_by_id('cn.highing.hichat:id/iv_comment_tips')
                 el.click()
                 sleep(1)
-                el = self.driver.find_element_by_xpath(
-                    '//android.widget.LinearLayout/android.widget.ImageView[contains(@text, "")]')
+                el = self.driver.find_element_by_id('cn.highing.hichat:id/iv_gps_tips')
                 el.click()
                 sleep(1)
-                el = self.driver.find_element_by_xpath(
-                    '//android.widget.LinearLayout/android.widget.ImageView[contains(@text, "")]')
+                el = self.driver.find_element_by_id('cn.highing.hichat:id/iv_comment_tips')
                 el.click()
+                sleep(1)
             except:
                 return
 
@@ -101,7 +100,6 @@ class HighingAndroidTests(unittest.TestCase):
 
             el = self.driver.find_element_by_id('cn.highing.hichat:id/header_btn_right')
             el.click()
-            self.driver.implicitly_wait(10)
 
         except:
             try:
@@ -110,15 +108,37 @@ class HighingAndroidTests(unittest.TestCase):
                 el_2.click()
                 self.driver.implicitly_wait(10)
 
-                # 这里还没调通，图片复用的选择有问题
-                self.driver.find_elements_by_xpath(
-                    '//android.widget.LinearLayout/android.widget.RelativeLayout[1]/android.widget.GridView/android.widget.RelativeLayout[1]/android.widget.LinearLayout[1]/android.widget.CheckBox[contains(@text, "")]').click()
-                self.driver.find_elements_by_xpath(
-                    '//android.widget.LinearLayout/android.widget.RelativeLayout[1]/android.widget.GridView/android.widget.RelativeLayout[2]/android.widget.LinearLayout[1]/android.widget.CheckBox[contains(@text, "")]').click()
+                # 使用xpath无法解决问题，无法定位到元素
+                # self.driver.find_elements_by_xpath(
+                #     '//android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.GridView/android.widget.RelativeLayout[2]/android.widget.LinearLayout[contains(@index, "1")]').click()
+                # self.driver.find_elements_by_xpath(
+                #     '//android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.GridView/android.widget.RelativeLayout[3]/android.widget.LinearLayout[contains(@index, "1")]').click()
+
+                # 使用class_name的list，顺利解决问题
+                checkboxes = self.driver.find_elements_by_class_name('android.widget.CheckBox')
+                checkboxes[0].click()
+                checkboxes[1].click()
+
+                # 使用坐标点点击也能解决问题，但是无法兼容，局限性大
+                # self.driver.swipe(630, 320, 630, 320, 500)
+                # self.driver.implicitly_wait(10)
+                # self.driver.swipe(1000, 320, 1000, 320, 500)
+                # self.driver.implicitly_wait(10)
 
                 el = self.driver.find_element_by_id('cn.highing.hichat:id/header_layout_rightview_container')
                 el.click()
-                self.driver.implicitly_wait(10)
+                # self.driver.implicitly_wait(10)
+
+                try:
+                    # 过教学页
+                    el = self.driver.find_element_by_id('cn.highing.hichat:id/iv_gps_tips')
+                    el.click()
+                    sleep(1)
+                    el = self.driver.find_element_by_id('cn.highing.hichat:id/iv_comment_tips')
+                    el.click()
+                    sleep(1)
+                except:
+                    return
 
                 textfield = self.driver.find_element_by_class_name("android.widget.EditText")
                 textfield.send_keys("image_test_0001")
@@ -129,9 +149,21 @@ class HighingAndroidTests(unittest.TestCase):
 
             except:
                 # 发语音帖
+                action1 = TouchAction(self.driver)
                 el_3 = self.driver.find_element_by_id('cn.highing.hichat:id/topic_voice_send')
-                el_3.click()
+                action1.long_press(el_3).wait(10000).perform()
                 self.driver.implicitly_wait(10)
+
+                try:
+                    # 过教学页
+                    el = self.driver.find_element_by_id('cn.highing.hichat:id/iv_gps_tips')
+                    el.click()
+                    sleep(1)
+                    el = self.driver.find_element_by_id('cn.highing.hichat:id/iv_comment_tips')
+                    el.click()
+                    sleep(1)
+                except:
+                    return
 
                 textfield = self.driver.find_element_by_class_name("android.widget.EditText")
                 textfield.send_keys("voice_test_0001")
@@ -139,6 +171,7 @@ class HighingAndroidTests(unittest.TestCase):
                 el = self.driver.find_element_by_id('cn.highing.hichat:id/header_btn_right')
                 el.click()
                 self.driver.implicitly_wait(10)
+                self.driver.tap()
 
 
 if __name__ == '__main__':
