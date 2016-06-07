@@ -2,11 +2,12 @@
 # coding=utf-8
 
 import os
+import time
 from time import sleep
 
 import unittest
 
-# from Scripts.HTMLTestRunner import HTMLTestRunner
+import HTMLTestRunner
 from appium import webdriver
 
 # Returns abs path relative to this file and not cwd
@@ -36,10 +37,10 @@ class HighingAndroidTests(unittest.TestCase):
     def test_Swipe_Login(self):
         sleep(10)
         if self.driver.current_activity == ".ui.GuideActivity":
+            self.driver.implicitly_wait(10)
             try:
                 # 划过引导页
                 self.driver.swipe(1000, 960, 80, 960, 500)
-                self.driver.implicitly_wait(10)
                 self.driver.swipe(1000, 960, 80, 960, 500)
                 self.driver.implicitly_wait(10)
                 self.driver.swipe(1000, 960, 80, 960, 500)
@@ -175,10 +176,19 @@ class HighingAndroidTests(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    suite = unittest.TestLoader().loadTestsFromTestCase(HighingAndroidTests)
-    unittest.TextTestRunner(verbosity=2).run(suite)
+    # suite = unittest.TestLoader().loadTestsFromTestCase(HighingAndroidTests)
+    # unittest.TextTestRunner(verbosity=2).run(suite)
 
-    # filename="./myAppiumLog.html"        # 定义个报告存放路径，支持相对路径。
-    # fp=file(filename, 'wb')
-    # runner = HTMLTestRunner.HTMLTestRunner(stream=fp, title='Report_title', description='Report_description')  # 使用HTMLTestRunner配置参数，输出报告路径、报告标题、描述
-    # runner.run(testunit)                 # 自动进行测试
+
+    suite = unittest.TestSuite()
+    suite.addTest(HighingAndroidTests("test_Swipe_Login"))
+
+    timestr = time.strftime('%Y%m%d%H%M%S', time.localtime(time.time()))
+    filename = "./result_" + timestr + ".html"                                  # 定义个报告存放路径，支持相对路径。
+
+    fp = open(filename, 'wb')
+    runner = HTMLTestRunner.HTMLTestRunner(stream=fp, title='Test Results',
+                                           description='Test Reports')          # 使用HTMLTestRunner配置参数，输出报告路径、报告标题、描述
+
+    runner.run(suite)                                                           # 自动进行测试
+    fp.close()                                                                  # 测试报告关闭
