@@ -11,7 +11,6 @@ import HTMLTestRunner
 from appium import webdriver
 
 # Returns abs path relative to this file and not cwd
-from appium.webdriver.common.touch_action import TouchAction
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -25,7 +24,7 @@ class Dasouche_Login_Test(unittest.TestCase):
         desired_caps['platformVersion'] = '6.0'
         desired_caps['deviceName'] = 'Nexus 5'
         desired_caps['appPackage'] = 'com.souche.fengche'  # 被测App的包名
-        desired_caps['appActivity'] = 'com.souche.fengche.ui.activity.login.LoginActivity'  # 启动时的Activity
+        desired_caps['appActivity'] = 'com.souche.fengche.ui.activity.SplashActivity'  # 启动时的Activity
         # desired_caps['app'] = PATH('/Users/taoyi/Downloads/dasouche.apk')
 
         self.driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
@@ -59,6 +58,7 @@ class Dasouche_Login_Test(unittest.TestCase):
         self.driver.hide_keyboard()
         el = self.driver.find_element_by_id('com.souche.fengche:id/login_sign_in')
         el.click()
+        sleep(5)
 
 
 
@@ -71,7 +71,7 @@ if __name__ == '__main__':
     suite.addTest(Dasouche_Login_Test("Test_Login"))
 
     timestr = time.strftime('%Y%m%d%H%M%S', time.localtime(time.time()))
-    filename = "./results/result_" + timestr + ".html"                                  # 定义个报告存放路径，支持相对路径。
+    filename = "./results/result_" + timestr + ".html"                          # 定义个报告存放路径，支持相对路径。
 
     fp = open(filename, 'wb')
     runner = HTMLTestRunner.HTMLTestRunner(stream=fp, title='Test Results',
