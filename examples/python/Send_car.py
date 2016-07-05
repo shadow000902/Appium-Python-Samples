@@ -83,11 +83,11 @@ class Dasouche_SendCar_Test(unittest.TestCase):
         # self.driver.find_element_by_id('com.souche.fengche:id/record_car_et_note').send_keys('123456')
         # 点击保存
         self.driver.find_element_by_id('com.souche.fengche:id/carlib_toolbar_save').click()
+        sleep(5)
         # 点击保存
-        self.driver.find_element_by_id('com.souche.fengche:id/carlib_toolbar_save').click()
-        sleep(10)
-        # 点击 暂不上架
-        self.driver.find_element_by_id('android:id/button2').click()
+        # self.driver.find_element_by_id('com.souche.fengche:id/carlib_toolbar_save').click()
+        # sleep(5)
+        self.driver.find_element_by_xpath('//android.widget.Button[contains(@text, "暂不上架")]').click()
         sleep(10)
 
 
